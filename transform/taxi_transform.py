@@ -1,19 +1,21 @@
 import json
 import pandas as pd 
-from endpoint.taxi_data_source import TaxiDS
+from geopy.geocoders import Nominatim
 
 
 class Taxi_Tr():
     def __init__(self):
         print("Taxi TR iniatated !")
-        
+        self.geolocator =  Nominatim(user_agent="SingaporeTaxi")
     def process_message(self, message:json):
         try:
             # preprocess data
-            ts = message['properies']['timestamp']
-            count = message['properies']['taxi_count']
+            message = message['features'][0]
+            ts = message['properties']['timestamp']
+            count = message['properties']['taxi_count']
             temp_df = pd.DataFrame(message['geometry']['coordinates'], columns = ['longitude', 'latitude'])
             temp_df['timestamp']= ts
+            temp_df['sub_area'] = temp_df[['latitude','longitude']].apply(lambda x: self.geolocator.reverse(f"{x.latitude},{x.longitude}", axis=1))
             #count validation
             data_complete = temp_df.shape[0]==count
             dim_df = pd.DataFrame([ts, count,data_complete], columns = ['timestamp', 'count_taxi','data_complete'])
