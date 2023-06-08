@@ -25,7 +25,7 @@ print(start_date)
 print(start_date.strftime("%Y-%m-%dT00:00:00"))
 start_time = datetime.strptime(start_date.strftime("%Y-%m-%dT00:00:00"), "%Y-%m-%dT%H:%M:%S")
 print(start_time)
-response_API = requests.get(url=url_data+f'?{start_time.strftime("%Y-%m-%dT%H:%M:%S")}+08:00', headers=headers, verify=False).json()
+response_API = requests.get(url=url_data+f'?date_time={start_time.strftime("%Y-%m-%dT%H:%M:%S")}', headers=headers, verify=False).json()
 print(response_API)
 
 

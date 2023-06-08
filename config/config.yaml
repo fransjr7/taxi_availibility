@@ -1,1 +1,13 @@
-data_source:
+taxi_config:
+  url: https://api.data.gov.sg/v1/transport/taxi-availability
+  headers:
+    Accept: application/vnd.geo+json
+    Content-Type: application/json
+  dim_table : dt_taxi
+  data_table : ft_taxi
+postgre:
+  host: localhost
+  port: 5432
+  database: raw
+  user: postgres
+  password: rudianto

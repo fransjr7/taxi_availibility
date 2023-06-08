@@ -3,12 +3,6 @@ import json
 from datetime import datetime, date , timedelta
 
 
-url_data = "https://api.data.gov.sg/v1/transport/taxi-availability"
-headers = {
-        'Accept': 'application/vnd.geo+json',
-        'Content-Type': 'application/json',
-    }
-
 class TaxiDS():
     def __init__(self, url:str, headers:json={}):
         # Init information for endpoint
@@ -20,7 +14,7 @@ class TaxiDS():
         return(res)
     
     def get_data_ts(self, datetime:datetime):
-        res = requests.get(url=self.url+f'?{datetime.strftime("%Y-%m-%dT%H:%M:%S")}+08:00', headers=self.headers, verify=False).json()
+        res = requests.get(url=self.url+f'?date_time={datetime.strftime("%Y-%m-%dT%H:%M:%S")}', headers=self.headers, verify=False).json()
         return res
     
     def get_bulk_data(self, start_date:date, end_date:date):
