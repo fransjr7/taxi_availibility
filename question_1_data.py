@@ -23,7 +23,7 @@ print(top_10_region)
 
 # Question 1 - Point B  top 10 lowest taxi population region
 # Get all region in sg
-taxi_usecase.get_all_region(taxi_usecase["region_table"])
+taxi_usecase.get_all_region(cfg["taxi_config"]["region_table"])
 # query latest data to get result
 taxi_usecase.get_current_data()
 bottom_10_region = pg_repo.exec_query_pd(bottom_10_area)
