@@ -33,9 +33,8 @@ class PostgreRepo():
             print("Failed to change database ")
             print(error)
 
-    def exec_query_pd(self, db:str, query:str):
+    def exec_query_pd(self,query:str):
         try:
-            self.change_db(db)
             res = pd.read_sql(query, self.engine)
             return res
         except Exception as error:
@@ -53,6 +52,13 @@ class PostgreRepo():
             data.to_sql(target_table, con=self.engine, if_exists="append",index =False)
         except Exception as error:
             raise(f"error in load into db : {error}")
+    
+    def update_db(self, data:pd.DataFrame, target_table:str):
+        try:
+            data.to_sql(target_table, con=self.engine, if_exists="replace",index =False)
+        except Exception as error:
+            raise(f"error in load into db : {error}")
+
 
     def close(self):
         self.conn.close()

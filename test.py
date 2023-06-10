@@ -50,15 +50,15 @@ geolocator = Nominatim(user_agent="MyApp", timeout=10)
 
 temp_df['geometry'] = temp_df.apply(lambda x : Point(x['longitude'],x['latitude']), axis =1 )
 print(temp_df.drop_duplicates())
-gdf = gpd.read_file('./lib/cities.geojson')
+gdf = gpd.read_file('./lib/sg_subzone.geojson')
 print(gdf)
-dfp = gpd.GeoDataFrame({'geometry': temp_df['geometry']}, crs=gdf.crs)
-print(dfp)
-city_out = pd.DataFrame(gpd.sjoin_nearest(dfp, gdf, how='left')[["geometry","NAME"]]).drop_duplicates()
-print(city_out)
-temp_df= pd.merge(temp_df, city_out, on="geometry", how="inner").fillna("none").reset_index(drop = True)
+# dfp = gpd.GeoDataFrame({'geometry': temp_df['geometry']}, crs=gdf.crs)
+# print(dfp.columns)
+# city_out = pd.DataFrame(gpd.sjoin_nearest(dfp, gdf, how='left')[["geometry","name"]]).drop_duplicates()
+# print(city_out)
+# temp_df= pd.merge(temp_df, city_out, on="geometry", how="inner").fillna("none").reset_index(drop = True)
 
-print(temp_df.query("NAME != 'none'"))
+
 
 # temp_df['county'] = temp_df.apply(lambda x: geolocator.reverse(f"{x['latitude']},{x['longitude']}").raw['address'].get('county',''),pip axis=1)
 

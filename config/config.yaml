@@ -5,6 +5,7 @@ taxi_config:
     Content-Type: application/json
   dim_table : dt_taxi
   data_table : ft_taxi
+  region_table : dt_sg_region
 postgre:
   host: localhost
   port: 5432

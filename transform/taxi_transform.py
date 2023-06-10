@@ -7,7 +7,7 @@ from shapely.geometry import Point
 class Taxi_Tr():
     def __init__(self):
         print("Taxi TR iniatated !")
-        self.gdf = gpd.read_file('./lib/cities.geojson')
+        self.gdf = gpd.read_file('./lib/sg_subzone.geojson')
 
     def process_message(self, message:json):
         try:
@@ -22,10 +22,10 @@ class Taxi_Tr():
             # get city data
             temp_df['geometry'] = temp_df.apply(lambda x : Point(x['longitude'],x['latitude']), axis =1 )
             dfp = gpd.GeoDataFrame({'geometry': temp_df['geometry']}, crs=self.gdf.crs)
-            city_out = pd.DataFrame(gpd.sjoin_nearest(dfp, self.gdf, how='left')[["geometry","NAME"]]).drop_duplicates()
+            city_out = pd.DataFrame(gpd.sjoin_nearest(dfp, self.gdf, how='left')[["geometry","name"]]).drop_duplicates()
             temp_df= pd.merge(temp_df, city_out, on="geometry", how="left").fillna("none").reset_index(drop = True)
-            temp_df = temp_df.rename(columns = {"NAME": "city_name"})
-            temp_df = temp_df[["timestamp", "longitude", "latitude","city_name"]]
+            temp_df = temp_df.rename(columns = {"name": "region_name"})
+            temp_df = temp_df[["timestamp", "longitude", "latitude","region_name"]]
 
             #count validation
             data_complete = temp_df.shape[0]==count
@@ -51,3 +51,7 @@ class Taxi_Tr():
             return temp_df, temp_dim_df
         except:
             raise("Error in processing bulk messages, check process_message input !")
+
+
+    def get_all_region(self):
+        return self.gdf['name']

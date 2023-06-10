@@ -5,7 +5,7 @@ from repository.postgre_repo import PostgreRepo
 from endpoint.taxi_data_source import TaxiDS
 from transform.taxi_transform import Taxi_Tr
 from jinja2 import Template
-from lib.query import del_query_1_key
+from lib.query import del_query_1_key, no_taxi_region
 
 class TaxiUsecase():
     def __init__(self, taxi_conf:json, postgre_repo:PostgreRepo):
@@ -61,5 +61,17 @@ class TaxiUsecase():
         # finally:
         #     del data, dim
    
+    def get_all_region(self, target_table:str):
+        try:
+            region_data = self.taxi_tr.get_all_region()
+            self.postgre_repo.update_db(region_data,target_table)
+        except Exception as error:
+            raise(f"error in get_all_region : {error}")
+
+    def get_region_no_taxi(self):
+        self.get_current_data()
+        self.get_all_region(self.conf["region_table"])
+        return(self.postgre_repo.exec_query_pd(no_taxi_region))
+    
     def finish(self):
         self.postgre_repo.close()
