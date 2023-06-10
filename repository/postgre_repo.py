@@ -15,6 +15,7 @@ class PostgreRepo():
             user = config["user"],
             password = config["password"])
         self.pg = self.conn.cursor()
+        self.db = config["database"]
         self.engine = create_engine(f'postgresql+psycopg2://{config["user"]}:{config["password"]}@{config["host"]}/{config["database"]}')
     
     def change_db(self, db:str):
@@ -40,9 +41,8 @@ class PostgreRepo():
         except Exception as error:
             print(f"error in executing query : {error}")
 
-    def exec_query(self, db:str, query:str):
+    def exec_query(self, query:str):
         try:
-            self.change_db(db)
             self.pg.execute(query)
             self.conn.commit()
         except Exception as error:

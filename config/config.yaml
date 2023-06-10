@@ -8,6 +8,6 @@ taxi_config:
 postgre:
   host: localhost
   port: 5432
-  database: raw
+  database: taxi
   user: postgres
   password: rudianto

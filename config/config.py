@@ -9,4 +9,4 @@ class Config:
             self.conf = yaml.safe_load(Path(path).read_text())
             print("Successfully load config")
         except:
-            print("Failed to load config")
+            raise("Failed to load config")
