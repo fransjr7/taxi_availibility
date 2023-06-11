@@ -1,0 +1,12 @@
+numpy==1.24.1
+jinja2==2.1.2
+pandas==1.5.3
+pathlib==1.0.1
+psycopg2-binary==2.9.5
+python-dateutil==2.8.2
+pytz==2022.7.1
+PyYAML==6.0
+SQLAlchemy==1.4.46
+shapely
+geopandas
+geoppy
